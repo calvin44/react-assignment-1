@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react'
+import React, { Fragment, useContext, useMemo } from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -51,15 +51,18 @@ const StyledButton = withStyles((theme) => createStyles({
 
 const DataTable = () => {
     const { apiData, setApiData, rowCount, setRowCount } = useContext(globalState)
-    const [showLoadMoreButton, setShowLoadMoreButton] = useState(true)
+    const showLoadMoreButton = useMemo(() => {
+        if (apiData.length >= rowCount) {
+            return true
+        } else {
+            return false
+        }
+    }, [apiData.length, rowCount])
     const handleDelete = (id) => {
         setApiData(prev => prev.filter(item => item.objectID !== id))
     }
     const loadMore = () => {
         setRowCount(rowCount + 5)
-        if (rowCount >= apiData.length) {
-            setShowLoadMoreButton(false)
-        }
     }
     if (apiData !== 'error') {
         if (apiData.length !== 0) {
