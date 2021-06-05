@@ -62,49 +62,55 @@ const DataTable = () => {
         }
     }
     if (apiData !== 'error') {
-        return (
-            <Fragment>
-                <StyledTableContainer component={ Paper }>
-                    <StyledTable aria-label="simple table">
-                        <StyledTableHead>
-                            <TableRow>
-                                <StyledTableCellHead align="left">ID</StyledTableCellHead>
-                                <StyledTableCellHead align="left">Author</StyledTableCellHead>
-                                <StyledTableCellHead align="left">Comments</StyledTableCellHead>
-                                <StyledTableCellHead align="left">Title</StyledTableCellHead>
-                                <StyledTableCellHead align="left">URL</StyledTableCellHead>
-                                <StyledTableCellHead align="left">Remove</StyledTableCellHead>
-                            </TableRow>
-                        </StyledTableHead>
-                        <TableBody>
-                            {
-                                apiData.filter((item, index) => index < rowCount).map((item, index) => (
-                                    <TableRow key={ index }>
-                                        <StyledTableCell align="left">{ item.objectID }</StyledTableCell>
-                                        <StyledTableCell align="left">{ item.author }</StyledTableCell>
-                                        <StyledTableCell align="left">{ item.num_comments }</StyledTableCell>
-                                        <StyledTableCell align="left">{ item.title }</StyledTableCell>
-                                        <StyledTableCell align="left">{ item.url }</StyledTableCell>
-                                        <StyledTableCell align="left">
-                                            <Button
-                                                size="small"
-                                                onClick={ () => handleDelete(item.objectID) }
-                                                variant="contained"
-                                                color="secondary"
-                                                startIcon={ <DeleteIcon /> }
-                                            >Delete</Button>
-                                        </StyledTableCell>
-                                    </TableRow>
-                                ))
-                            }
-                        </TableBody>
-                    </StyledTable>
-                </StyledTableContainer>
-                <ButtonContainer>
-                    <StyledButton disabled={ !showLoadMoreButton } style={ { visibility: !showLoadMoreButton && 'hidden' } } onClick={ loadMore } variant="contained" size="small" color="primary">Load More</StyledButton>
-                </ButtonContainer>
-            </Fragment >
-        )
+        if (apiData.length !== 0) {
+            return (
+                <Fragment>
+                    <StyledTableContainer component={ Paper }>
+                        <StyledTable aria-label="simple table">
+                            <StyledTableHead>
+                                <TableRow>
+                                    <StyledTableCellHead align="left">ID</StyledTableCellHead>
+                                    <StyledTableCellHead align="left">Author</StyledTableCellHead>
+                                    <StyledTableCellHead align="left">Comments</StyledTableCellHead>
+                                    <StyledTableCellHead align="left">Title</StyledTableCellHead>
+                                    <StyledTableCellHead align="left">URL</StyledTableCellHead>
+                                    <StyledTableCellHead align="left">Remove</StyledTableCellHead>
+                                </TableRow>
+                            </StyledTableHead>
+                            <TableBody>
+                                {
+                                    apiData.filter((item, index) => index < rowCount).map((item, index) => (
+                                        <TableRow key={ index }>
+                                            <StyledTableCell align="left">{ item.objectID }</StyledTableCell>
+                                            <StyledTableCell align="left">{ item.author }</StyledTableCell>
+                                            <StyledTableCell align="left">{ item.num_comments }</StyledTableCell>
+                                            <StyledTableCell align="left">{ item.title }</StyledTableCell>
+                                            <StyledTableCell align="left">{ item.url }</StyledTableCell>
+                                            <StyledTableCell align="left">
+                                                <Button
+                                                    size="small"
+                                                    onClick={ () => handleDelete(item.objectID) }
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    startIcon={ <DeleteIcon /> }
+                                                >Delete</Button>
+                                            </StyledTableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </StyledTable>
+                    </StyledTableContainer>
+                    <ButtonContainer>
+                        <StyledButton disabled={ !showLoadMoreButton } style={ { visibility: !showLoadMoreButton && 'hidden' } } onClick={ loadMore } variant="contained" size="small" color="primary">Load More</StyledButton>
+                    </ButtonContainer>
+                </Fragment >
+            )
+        } else {
+            return (
+                <h1>Loading...</h1>
+            )
+        }
     } else {
         return (
             <ErrorContainer>
